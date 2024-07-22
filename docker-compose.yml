@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/myfsapp
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/react-app:/app
+      - /app/node_modules
+    command: npm start
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=myfsapp
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
