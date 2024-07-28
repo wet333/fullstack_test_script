@@ -1,9 +1,8 @@
-FROM maven AS build
-WORKDIR /app
-COPY ./spring-api /app
-RUN mvn clean package
+# Description: Dockerfile for the backend service
+# Developer build
 
-FROM openjdk:20-jdk-slim
+FROM openjdk:21
 WORKDIR /app
-COPY --from=build app/target/*.jar app.jar
+COPY ./spring-api/target/*.jar ./app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,5 +1,6 @@
 package online.awet.springapi_test.entities;
 
+
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
